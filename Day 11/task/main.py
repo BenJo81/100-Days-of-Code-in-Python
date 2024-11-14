@@ -8,11 +8,7 @@ def final_hand():
 
 
 def check_score():
-    if user_score == 21:
-        final_hand()
-        print("Blackjack! You win! 🥳")
-        return False
-    elif user_score > 21:
+    if user_score > 21:
         final_hand()
         print("You went over. You lose 😭")
         return False
@@ -22,7 +18,7 @@ def check_score():
         return False
     elif computer_score > user_score and computer_score <= 21:
         final_hand()
-        print("You lose 😤")
+        print("Computer wins. You lose 😤")
         return False
     elif computer_score == user_score:
         final_hand()
@@ -33,11 +29,12 @@ def check_score():
 
 
 blackjack = True
+game_on = True
 
 while blackjack:
     print(logo)
 
-    choice = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
+    choice = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
     if choice == "y":
         user_score = 0
         computer_score = 0
@@ -46,8 +43,16 @@ while blackjack:
         for card in range(2):
             player_hand.append(random.choice(cards))
             computer_hand.append(random.choice(cards))
-
-        game_on = True
+        user_score = sum(player_hand)
+        computer_score = sum(computer_hand)
+        if sum(player_hand) == 21:
+            print(f"Blackjack! You win!")
+            final_hand()
+            game_on = False
+        if sum(computer_hand) == 21:
+            print("Computer Blackjack. You lose. 😡")
+            final_hand()
+            game_on = False
 
         while game_on:
             user_score = sum(player_hand)
@@ -58,14 +63,22 @@ while blackjack:
             print(f"    Your cards: {player_hand}, current score: {user_score}")
             print(f"    Computer's first card: {computer_hand[0]}")
 
-            game_on = check_score()
-
             another_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
             if another_card == "y":
                 player_hand.append(random.choice(cards))
+                user_score = sum(player_hand)
+            if user_score > 21:
+                game_on = check_score()
             elif another_card == "n":
                 while sum(computer_hand) < 17:
                     computer_hand.append(random.choice(cards))
+                    computer_score = sum(computer_hand)
                 game_on = check_score()
+        choice2 = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
+        if choice2 == "y":
+            blackjack = True
+            print("\n" * 20)
+        else:
+            blackjack = False
     else:
         blackjack = False
