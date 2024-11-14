@@ -28,13 +28,16 @@ def check_score():
         return True
 
 
+choice2 = "n"
 blackjack = True
-game_on = True
 
 while blackjack:
     print(logo)
-
-    choice = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
+    game_on = True
+    if choice2 == "n":
+        choice = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
+    else:
+        choice = "y"
     if choice == "y":
         user_score = 0
         computer_score = 0
@@ -67,8 +70,8 @@ while blackjack:
             if another_card == "y":
                 player_hand.append(random.choice(cards))
                 user_score = sum(player_hand)
-            if user_score > 21:
-                game_on = check_score()
+                if user_score > 21:
+                    game_on = check_score()
             elif another_card == "n":
                 while sum(computer_hand) < 17:
                     computer_hand.append(random.choice(cards))
