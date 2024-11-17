@@ -48,8 +48,9 @@ def check_resources(choice, water, milk, coffee):
 
 def dispense_drink(kcup):
     resources["water"] -= MENU[kcup]["ingredients"]["water"]
-    resources["milk"] -= MENU[kcup]["ingredients"]["milk"]
     resources["coffee"] -= MENU[kcup]["ingredients"]["coffee"]
+    if kcup != "espresso":
+        resources["milk"] -= MENU[kcup]["ingredients"]["milk"]
 
 
 while coffee_on:
@@ -58,14 +59,14 @@ while coffee_on:
         coffee_on = False
         make_coffee = False
     elif order == "report":
-        print(f"Water: {resources['water']}\nMilk: {resources['milk']}\nCoffee: {resources['coffee']}\nMoney: ${resources['money']}")
+        print(f"Water: {resources['water']}ml\nMilk: {resources['milk']}ml\nCoffee: {resources['coffee']}g\nMoney: ${resources['money']}")
         make_coffee = False
     elif order == "latte":
         statement, move_on = check_resources(order, MENU["latte"]["ingredients"]["water"], MENU["latte"]["ingredients"]["milk"], MENU["latte"]["ingredients"]["coffee"])
         print(statement)
         make_coffee = move_on
     elif order == "espresso":
-        statement, move_on = check_resources(order, MENU["espresso"]["ingredients"]["water"], MENU["espresso"]["ingredients"][0], MENU["espresso"]["ingredients"]["coffee"])
+        statement, move_on = check_resources(order, MENU["espresso"]["ingredients"]["water"], 0, MENU["espresso"]["ingredients"]["coffee"])
         print(statement)
         make_coffee = move_on
     elif order == "cappuccino":
