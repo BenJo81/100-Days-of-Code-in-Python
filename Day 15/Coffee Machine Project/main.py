@@ -92,4 +92,3 @@ while coffee_on:
         elif total < MENU[order]["cost"]:
             print("Sorry, that's not enough money. Money refunded.")
             make_coffee = False
-
